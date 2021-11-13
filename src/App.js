@@ -1,25 +1,69 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import {BrowserRouter as Router,Switch,Route,}from "react-router-dom";
+import Dashboard from './Pages/Dashboard/DashboardHome/Dashboard';
+import HomepageRoot from './Pages/HomePage/Root/HomepageRoot';
+import Explore from './Pages/Explore/Explore';
+import Login from './Pages/ManageUser/Login';
+import Register from './Pages/ManageUser/Register';
+import AuthProvider from './AuthProvider/AuthProvider';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+
+  
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <AuthProvider>
+      <Router>
+        <Switch>
+
+          <Route exact path="/">
+            <HomepageRoot></HomepageRoot>
+          </Route>
+
+          
+          <Route path="/home">
+            <HomepageRoot></HomepageRoot>
+          </Route>
+          <Route path='/explore'>
+            <Explore></Explore>
+          </Route>
+          <Route path='/login'>
+               <Login></Login>
+            </Route>
+          <Route path='/register'>
+              <Register></Register>
+            </Route>
+          
+           
+          <PrivateRoute path='/dashboard'>
+            <Dashboard></Dashboard>
+          </PrivateRoute>
+        </Switch>
+          
+      </Router>
+      </AuthProvider>
+     
+     
     </div>
+
+
+      
   );
 }
 
 export default App;
+  
+
+
+
+
+
+
+
+
+
+
+

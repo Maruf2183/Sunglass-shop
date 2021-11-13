@@ -1,0 +1,16 @@
+
+
+.banner{
+    background-image: url('https://i.ibb.co/QNgvMFy/two-young-beautiful-blond-smiling-hipster-women-trendy-summer-clothes-sexy-carefree-women-posing-nea.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    
+    
+  }
+  .banner-text{
+    padding-left: 50px;
+  }
+
