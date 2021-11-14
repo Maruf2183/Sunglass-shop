@@ -42,7 +42,11 @@ const Login = () => {
 
     const location = useLocation();
     const history = useHistory();
-    const redirect_uri = location.state?.from || "/home"
+    const redirect_uri = location.state?.from || "/home";
+
+    const popupSignIn = () => {
+        googleDirectsignin(history,redirect_uri)
+    }
 
 
     //form data collection and  login function start here
@@ -131,7 +135,7 @@ const Login = () => {
                         </Box>
                         <Divider sx={{ my: 3 }} />
                         <Typography variant='caption'> Sign in with </Typography>
-                        <Button onClick={googleDirectsignin} sx={{ mx: 3 }} variant='contained'>
+                        <Button onClick={popupSignIn} sx={{ mx: 3 }} variant='contained'>
                             <GoogleIcon />
                         </Button>
                     </form>

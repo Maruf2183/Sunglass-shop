@@ -13,9 +13,18 @@ import { useForm, Controller } from "react-hook-form";
 
 const Register = () => {
     const { loading, googleDirectsignin, signInWithEmail } = useAuth();
+
     const location = useLocation();
     const history = useHistory();
     const redirect_uri = location.state?.from || "/home"
+
+
+    const popupSignIn = () => {
+        googleDirectsignin(history,redirect_uri)
+    }
+        
+        
+         
 
 
     //    password hide handle 
@@ -64,7 +73,7 @@ const Register = () => {
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm(defaultValues)
 
-
+   
     const onSubmit = ({ email, password, password2, name }) => {
         const loggeddata = { name, email, password, password2 }
         console.log(loggeddata);
@@ -229,7 +238,7 @@ const Register = () => {
 
                         <Divider sx={{ my: 5 }} />
                         <Typography variant='caption'> Sign in with </Typography>
-                        <Button onClick={googleDirectsignin} sx={{ mx: 2 }} variant='contained'>
+                        <Button onClick={popupSignIn} sx={{ mx: 2 }} variant='contained'>
                             <GoogleIcon />
                         </Button>
                     </form>

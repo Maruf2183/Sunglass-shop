@@ -1,39 +1,37 @@
+import React, { useEffect, useState } from 'react';
 import { Container, Typography, Box, Grid } from '@mui/material';
-import React from 'react';
 import Navbar from '../HomePage/Navbar/Navbar';
 import Product from '../HomePage/ProductsShow/Product';
+import axios from 'axios';
+
+const Explore = () => {
+    const [products, setProducts] = useState([{},{},{},{}]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/products').then(data => setProducts(data.data))
+    }, []);
 
 
 
 
-    const fakedata = [
-        { id: '1', name: 'Rim spectacle Frame', price: 100, },
-        { id: '2', name: 'Aviator UniPex Sunglasses', price: 200 },
-        { id: '3', name: 'Around UniPex Sunglasses', price: 100 },
-        { id: '4', name: 'Aviator frame glasses', price: 100 },
-        { id: '5', name: 'Cot-Out Fasion Frame', price: 59 },
-        { id: '6', name: 'Goggles Aviator Sunglasses', price: 59 },
-    ]
+
+    return (
+
+        <>
+            <Navbar></Navbar>
+
+            <Container sx={{ my: 5 }}>
+                <Box sx={{ my: 5 }}>  <Typography variant='h2' component='div'> Latest Collection</Typography>
+                    <Typography variant='h5' component='div'> WHERE ROYAL HAS A MEANING</Typography> </Box>
+                <Grid container spacing={5}>
+
+                    {products?.map(data => <Product
+                        key={data._id} data={data}> </Product>)}
 
 
-    const Explore = () => {
-        return (
+                </Grid>
+            </Container>
+        </>
+    );
+};
 
-            <>
-                <Navbar></Navbar>
-
-                <Container sx={{ my: 5 }}>
-                    <Box sx={{ my: 5 }}>  <Typography variant='h2' component='div'> Latest Collection</Typography>
-                        <Typography variant='h5' component='div'> WHERE ROYAL HAS A MEANING</Typography> </Box>
-                    <Grid container spacing={5}>
-                        {fakedata.map(data => <Product
-                            key={data.id} data={data}> </Product>)}
-
-
-                    </Grid>
-                </Container>
-            </>
-        );
-    };
-
-    export default Explore;
+export default Explore;

@@ -14,11 +14,12 @@ const useFirebase = () => {
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
      
-    const googleDirectsignin = (history) => {
+    const googleDirectsignin = (history,redirect_uri) => {
         signInWithPopup(auth, googleProvider)
             .then(result => {
                 setUser(result.user)
                 setLoading(false)
+                history.push(redirect_uri)
             })
             .catch(error => setError(error.message))
             .finally(result => {

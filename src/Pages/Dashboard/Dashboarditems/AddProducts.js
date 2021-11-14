@@ -2,6 +2,7 @@ import { Button, Container, Paper, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import React from 'react';
 import { useForm, Controller } from "react-hook-form"
+import axios from 'axios';
 
 const AddProducts = () => {
       
@@ -16,12 +17,19 @@ const AddProducts = () => {
 
 
 
-    const handleAddingProduct = ({ photoURL, name, price }) => {
-        console.log(photoURL, name, price);
+    const handleAddingProduct = (data) => {
+        console.log(data);
+        axios.post('http://localhost:5000/products',data).then(data=>console.log(data))
         reset(defaultValues)
+    }
+
+
         
 
-    }
+
+
+        
+
 
     
 
