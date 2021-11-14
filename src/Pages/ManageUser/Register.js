@@ -48,7 +48,18 @@ const Register = () => {
 
     const [istmatch, setIsnmatch] = useState(false);
 
-    const { control, formState: { errors }, handleSubmit, reset } = useForm()
+    const defaultValues = {
+        name: '',
+        email:'',
+        password: '',
+        password2: '',
+    }
+        
+        
+        
+        
+
+    const { control, formState: { errors }, handleSubmit, reset } = useForm(defaultValues)
 
     const onSubmit = ({email, password, password2,name}) => {
         const loggeddata={name,email,password,password2}
@@ -64,7 +75,7 @@ const Register = () => {
         }
         else {
             signInWithEmail(email, password,name)
-            reset()
+            reset(defaultValues)
             console.log(`password match`, password, password2);
             setIsnmatch(false)
         }
