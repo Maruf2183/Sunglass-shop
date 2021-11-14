@@ -94,14 +94,15 @@ const TableRows = ({ data, products, setProducts }) => {
 
     const handleRemove = () => {
         axios.delete(dynamicRoute).then(data => {
-            console.log(data);
-
-            const AvailableData = products.filter(data => data._id !== _id)
-            setProducts(AvailableData)
+        
+            if ( data.data.deletedCount > 0) {
+                const AvailableData = products.filter(data => data._id !== _id)
+                setProducts(AvailableData)
+            }
         });
 
     }
-    
+
     return (
         <>
             <TableRow>

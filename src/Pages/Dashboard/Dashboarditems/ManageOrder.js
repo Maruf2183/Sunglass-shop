@@ -6,31 +6,33 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import axios from 'axios';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-];
+
 
 export default function ManageOrder() {
+
+    const [datas, setDatas] = React.useState([]);
+    const URL = `http://localhost:5000/orders`
+    React.useEffect(() => {
+        axios.get(URL).then(data => setDatas(data.data))
+    }, [])
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="caption table">
 
                 <TableHead>
                     <TableRow>
-                        <TableCell aign="right" >Customer  Name</TableCell>
-                        <TableCell align="right"> email </TableCell>
-                        <TableCell align="right"> Number </TableCell>
-                        <TableCell align="right">Product</TableCell>
-                        <TableCell align="right">Cancel</TableCell>
-                        <TableCell align="right">Accept</TableCell>
+
+                        <TableCell aign="left" >Product Name</TableCell>
+                        <TableCell align="left"> Customer email </TableCell>
+                        <TableCell align="left"> Number </TableCell>
+                        <TableCell align="left">Address</TableCell>
+                        <TableCell align="left">price</TableCell>
+                        <TableCell align="left">Cancel</TableCell>
+                        <TableCell align="left">Accept</TableCell>
 
 
                     </TableRow>
@@ -38,30 +40,149 @@ export default function ManageOrder() {
 
 
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right"> aremiya @gmai.com </TableCell>
-                            <TableCell align="right"> 015526565</TableCell>
-                            <TableCell align="right"> Procuasdklsj jadsf</TableCell>
 
-                            <TableCell align="right"> <Button style={{ backgroundColor:"red",}} 
-                                variant='contained'>Delete</Button>
-                            </TableCell>
-                            <TableCell align="right"> <Button style={{ backgroundColor:"green",}} 
-                                variant='contained'>Accept Order</Button>
-                            </TableCell>
-                               
-                        </TableRow>
+                    {datas.map(data => (
+                        <Row
+                            key={data._id}
+                            data={data}
+                            datas={datas}
+                            setDatas={setDatas}
+                        />
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
     );
 }
-                               
-                               
-                               
+
+const Row = ({ data, datas, setDatas }) => {
+    const [openDelete, setOpenDelete] = React.useState(false);
+    const [openUpdate, setOpenDeleteUpdate] = React.useState(false);
+
+    const { email, phone, address, name, price, _id } = data;
+    const dynamicURL = `http://localhost:5000/orders/${_id}`
+
+    const handleRemove = () => {
+        axios.delete(dynamicURL).then(datax=> {
+
+            if (datax.data.deletedCount > 0) {
+                const newValue = datas.filter(dataz => dataz._id !== _id);
+                setDatas(newValue)
+            }
+        });
+    }
+
+    const handleUpdate = () => {
+        axios.put(`http://localhost:5000/orders`,)
+     }
+
+
+
+
+
+
+
+
+
+    const handleOpenDelete = () => {
+        setOpenDelete(true)
+    }
+    const handleOpenUpdate = () => {
+        setOpenDeleteUpdate(true)
+    }
+
+    return (
+
+        <>
+            <TableRow >
+                <TableCell align="left">  {name}</TableCell>
+                <TableCell align="left"> {email} </TableCell>
+                <TableCell align="left">  {phone} </TableCell>
+                <TableCell align="left">  {address}</TableCell>
+                <TableCell align="left">  {price}</TableCell>
+
+
+                <TableCell align="left"> <Button onClick={handleOpenDelete} style={{ backgroundColor: "red", }}
+                    variant='contained'>Delete</Button>
+                </TableCell>
+                <TableCell align="left"> <Button onClick={handleOpenUpdate} style={{ backgroundColor: "green", }}
+                    variant='contained'>Accept</Button>
+                </TableCell>
+            </TableRow>
+
+
+            <Dialog
+
+                open={openDelete}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle
+                    id="alert-dialog-title">
+                    {"Are you sure ?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you Sure ...?
+                        You really Want to delete thid item...?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOpenDelete(false)
+
+                    }}>Disagree</Button>
+                    <Button onClick={() => {
+                        handleRemove();
+                        setOpenDelete(false)
+                    }} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+
+                open={openUpdate}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Are you sure ?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you Sure ...?
+                        You really Want to delete thid item...?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOpenDeleteUpdate(false)
+
+                    }}>Disagree</Button>
+                    <Button onClick={() => {
+                        handleUpdate();
+                        setOpenDeleteUpdate(false)
+                    }} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
+
+
+
+    )
+};
+
+
+
+
+
+
+
+
+
+
+
 

@@ -18,7 +18,7 @@ const Banner = () => {
             <Box className='banner-text' >
                 <Typography  sx={{ color: '#F4F6F7', }} variant='h4'> WELCOME TO OUR EYEHOUSE</Typography>
                 <Typography sx={{ color: '#F4F6F7', my: 3 }} variant='h4'> We Provide all the best glasses for you</Typography>
-                <Button  variant='contained'> <NavLink style={{textDecoration:'none',color:'white'}} to='/explore'> Explore Now</NavLink> </Button>
+                <Button  variant='contained'> <NavLink style={{textDecoration:'none',color:'white'}} to='/home/explore'> Explore Now</NavLink> </Button>
 
 
             </Box>

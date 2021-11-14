@@ -8,6 +8,7 @@ import Login from './Pages/ManageUser/Login';
 import Register from './Pages/ManageUser/Register';
 import AuthProvider from './AuthProvider/AuthProvider';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
+import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 
   
 
@@ -24,10 +25,13 @@ function App() {
           </Route>
 
           
-          <Route path="/home">
+          <Route exact path="/home">
             <HomepageRoot></HomepageRoot>
           </Route>
-          <Route path='/explore'>
+          <Route path="/home/placeorder/:id">
+            <PlaceOrder></PlaceOrder>
+          </Route>
+          <Route path='/home/explore'>
             <Explore></Explore>
           </Route>
           <Route path='/login'>
