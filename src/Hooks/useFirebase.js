@@ -28,7 +28,7 @@ const useFirebase = () => {
     };
 
 
-    const signInWithEmail = (email, pass,name,history) => {
+    const signInWithEmail = (email, pass,name,history,redirect_uri) => {
         setLoading(true)
         createUserWithEmailAndPassword(auth, email, pass)
             .then(result => {
@@ -36,6 +36,7 @@ const useFirebase = () => {
                 updateProfile(auth.currentUser,{
                     displayName:name
                 })
+                history.push(redirect_uri)
 
                     
             }).catch(error => {
@@ -43,12 +44,12 @@ const useFirebase = () => {
             })
             .finally(setLoading(false))
     };
-    const emailLogin = (email, pass,history) => {
+    const emailLogin = (email, pass,history,redirect_uri) => {
         setLoading(true)
         signInWithEmailAndPassword(auth,email, pass)
             .then(result => {
                 setUser(result.user)
-                history.push('/')
+                history.push(redirect_uri)
                 console.log(result.user);
             }).catch(error => {
                 setError(error.message)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Button, Container, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography, Box, Divider, Alert, AlertTitle, CircularProgress } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import useAuth from '../../Hooks/useAuth';
 import { useForm, Controller } from "react-hook-form";
@@ -13,6 +13,9 @@ import { useForm, Controller } from "react-hook-form";
 
 const Register = () => {
     const { loading, googleDirectsignin, signInWithEmail } = useAuth();
+    const location = useLocation();
+    const history = useHistory();
+    const redirect_uri = location.state?.from || "/home"
 
 
     //    password hide handle 
@@ -50,19 +53,20 @@ const Register = () => {
 
     const defaultValues = {
         name: '',
-        email:'',
+        email: '',
         password: '',
         password2: '',
     }
-        
-        
-        
-        
+
+
+
+
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm(defaultValues)
 
-    const onSubmit = ({email, password, password2,name}) => {
-        const loggeddata={name,email,password,password2}
+
+    const onSubmit = ({ email, password, password2, name }) => {
+        const loggeddata = { name, email, password, password2 }
         console.log(loggeddata);
         if (password !== password2) {
 
@@ -74,7 +78,7 @@ const Register = () => {
 
         }
         else {
-            signInWithEmail(email, password,name)
+            signInWithEmail(email, password, name, history, redirect_uri)
             reset(defaultValues)
             console.log(`password match`, password, password2);
             setIsnmatch(false)
@@ -114,27 +118,27 @@ const Register = () => {
                         <Typography variant='h4' element='div' sx={{ my: 4 }} >Register</Typography>
 
                         <Box style={{ margin: '30px 0px' }}>
-                        <Controller
-                            
-                            name="name"
-                            control={control}
-                            type='email'
-                            rules={{ required: true }}
-                            defaultValue={""}
-                            render={({ field }) => <TextField
-                               
-                                {...field}
-                                sx={{ width: 1 }}
-                                tuype='text'
-                                id="name"
-                                label='Name'
+                            <Controller
+
+                                name="name"
+                                control={control}
+                                type='email'
+                                rules={{ required: true }}
+                                defaultValue={""}
+                                render={({ field }) => <TextField
+
+                                    {...field}
+                                    sx={{ width: 1 }}
+                                    tuype='text'
+                                    id="name"
+                                    label='Name'
+                                />
+                                }
                             />
-                            }
-                        />
-                       </Box>
+                        </Box>
                         {errors.email?.type === 'required' && <Typography variant='caption' align='left' sx={{ color: 'red' }}> Name  is required</Typography>}
                         <Controller
-                            
+
                             name="email"
                             control={control}
                             type='email'

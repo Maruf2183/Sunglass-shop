@@ -1,7 +1,7 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Button, Container, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography, Box, Divider, CircularProgress } from '@mui/material';
 import React from 'react';
-import { NavLink ,useHistory} from 'react-router-dom';
+import { NavLink ,useHistory,useLocation} from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import useAuth from '../../Hooks/useAuth';
 import { useForm, Controller } from "react-hook-form";
@@ -40,13 +40,20 @@ const Login = () => {
         maxWidth:'600px'
     };
 
-    const history=useHistory();
+    const location = useLocation();
+    const history = useHistory();
+    const redirect_uri = location.state?.from || "/home"
 
 
     //form data collection and  login function start here
-    const { control, handleSubmit, formState: { errors } } = useForm()
+    const defaultValue = {
+        email: '',
+        password:''
+    }
+    const { control, handleSubmit, formState: { errors },reset } = useForm(defaultValue)
     const onSubmit = ({ email, password }) => {
-        emailLogin(email, password,history)
+        emailLogin(email, password, history, redirect_uri)
+        reset(defaultValue)
 
     };/* submit function end here */
     if (loading) {
