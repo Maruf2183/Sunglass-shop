@@ -19,20 +19,23 @@ import ManageOrder from '../Dashboarditems/ManageOrder';
 import ManageProducts from '../Dashboarditems/ManageProducts';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import AddProducts from '../Dashboarditems/AddProducts';
+import useAuth from '../../../Hooks/useAuth';
+import AdminRoute from '../../../AdminRoute/AdminRoute';
+
 
 const tdnone = {
   textDecoration: 'none',
- border:'1px solid grey',
+  border: '1px solid grey',
   padding: '5px 15px',
   width: '100%',
   textAlign: 'center',
-  marginTopo:"0px"
-  
-  
-  
+  marginTopo: "0px"
+
+
+
 }
 const itemPedding = {
-  paddingRight:'10px'
+  paddingRight: '10px'
 }
 
 
@@ -41,6 +44,8 @@ const itemPedding = {
 const drawerWidth = 240;
 
 function Dashboard(props) {
+  const { admin } = useAuth();
+
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -50,78 +55,88 @@ function Dashboard(props) {
   };
   let { path, url } = useRouteMatch();
   const drawer = (
-    <div   style={{backgroundColor:'#f5f8ff',height:'100%'}}>
+    <div style={{ backgroundColor: '#f5f8ff', height: '100%' }}>
 
 
       <List>
 
         <ListItem >
-         <ArrowLeftIcon  sx={{fontSize:'30px'}}  color='primary'   /> 
-          <NavLink style={tdnone}  to='/'> Back to Home</NavLink>
+          <ArrowLeftIcon sx={{ fontSize: '30px' }} color='primary' />
+          <NavLink style={tdnone} to='/'> Back to Home</NavLink>
         </ListItem>
 
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "Green"
-  }}
-  style={tdnone} to={`${url}`}>My Profile</NavLink>
-        </ListItem>
+        {!admin && <Box>
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "Green"
+            }}
+              style={tdnone} to={`${url}`}>My Profile</NavLink>
+          </ListItem>
 
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/myorder`}>My orders</NavLink>
-        </ListItem>
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/myorder`}>My orders</NavLink>
+          </ListItem>
 
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/review`}>Reviw</NavLink>
-        </ListItem>
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/review`}>Reviw</NavLink>
+          </ListItem>
 
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/pay`}>Pay</NavLink>
-        </ListItem >
-
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/makeadmin`}>Make Admin</NavLink>
-        </ListItem>
-
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/manageorder`}>Manage Order</NavLink>
-        </ListItem>
-
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/manageproduct`}>Manage Products</NavLink>
-        </ListItem>
-
-        <ListItem style={itemPedding} disablePadding>
-          <NavLink  activeStyle={{
-    fontWeight: "bold",
-    color: "blue"
-  }} style={tdnone} to={`${url}/addproduct`}>Add Products</NavLink>
-        </ListItem>
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/pay`}>Pay</NavLink>
+          </ListItem >
+        </Box>
+        }
 
 
+        {admin &&  <Box>
+        
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/makeadmin`}>Make Admin</NavLink>
+          </ListItem>
 
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/manageorder`}>Manage Order</NavLink>
+          </ListItem>
 
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/manageproduct`}>Manage Products</NavLink>
+          </ListItem>
+
+          <ListItem style={itemPedding} disablePadding>
+            <NavLink activeStyle={{
+              fontWeight: "bold",
+              color: "blue"
+            }} style={tdnone} to={`${url}/addproduct`}>Add Products</NavLink>
+          </ListItem>
+        </Box>
+            
+            
+            }
       </List>
-    </div>
+
+
+
+
+    </div >
   );
 
 
@@ -148,8 +163,8 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography sx={{ mx:'auto'}}  variant="h6" noWrap component="div">
-            Dashboard 
+          <Typography sx={{ mx: 'auto' }} variant="h6" noWrap component="div">
+            Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -160,7 +175,7 @@ function Dashboard(props) {
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          style={{backgroundColor:'#f5f8ff'}}
+          style={{ backgroundColor: '#f5f8ff' }}
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -176,7 +191,7 @@ function Dashboard(props) {
           {drawer}
         </Drawer>
         <Drawer
-        
+
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
@@ -201,9 +216,9 @@ function Dashboard(props) {
           <Route path={`${path}/myorder`}>
             <MyOrder></MyOrder>
           </Route>
-          <Route path={`${path}/makeadmin`}>
+          <AdminRoute path={`${path}/makeadmin`}>
             <MakeAdmin></MakeAdmin>
-          </Route>
+          </AdminRoute>
           <Route path={`${path}/review`}>
             <Review></Review>
           </Route>

@@ -12,7 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 
 
 const Register = () => {
-    const { loading, googleDirectsignin, signInWithEmail } = useAuth();
+    const { error,loading, googleDirectsignin, signInWithEmail } = useAuth();
 
     const location = useLocation();
     const history = useHistory();
@@ -124,6 +124,7 @@ const Register = () => {
             <Container>
                 <Box style={alignCenter}>
                     <form onSubmit={handleSubmit(onSubmit)} style={formStyle} >
+                        {error}
                         <Typography variant='h4' element='div' sx={{ my: 4 }} >Register</Typography>
 
                         <Box style={{ margin: '30px 0px' }}>

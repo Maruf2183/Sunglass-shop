@@ -11,7 +11,7 @@ const PlaceOrder = () => {
     const { email } = user;
     const history = useHistory()
     const { id } = useParams();
-    const URL = `http://localhost:5000/products/${id}`;
+    const URL = `https://limitless-springs-61236.herokuapp.com/products/${id}`;
     const [data, setData] = useState({});
     const { name, price } = data;
     useEffect(() => {
@@ -25,8 +25,8 @@ const PlaceOrder = () => {
     }
     const { control, handleSubmit, reset } = useForm(defaultValue)
     const onSubmit = (data) => {
-        const newData = { ...data, name, price, status: 'pending',email:email };
-        axios.post('http://localhost:5000/orders', newData).then(result => {
+        const newData = { ...data, name, price, status: 'pending', email: email };
+        axios.post('https://limitless-springs-61236.herokuapp.com/orders', newData).then(result => {
             if (result.data.acknowledged) {
                 reset(defaultValue)
                 history.push('/dashboard')

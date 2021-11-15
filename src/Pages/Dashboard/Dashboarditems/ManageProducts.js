@@ -13,50 +13,35 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-
-
-
-
-
-
-
+import { Snackbar } from '@mui/material';
 
 export default function ManageProducts() {
-
     const [allProducts, setAllProducts] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/products').then(data => setAllProducts(data.data))
+        axios.get('https://limitless-springs-61236.herokuapp.com/products').then(data => setAllProducts(data.data))
     }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    const [notify, setNotify] = useState(false);
+    const handleClose = () => {
+        setNotify(false)
+    }
     return (
         <>
+            <Snackbar
+                autoHideDuration={3000}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={notify}
+                onClose={handleClose}
+                message='Delete Successful'
+            />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="caption table">
-
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="right">Price</TableCell>
                             <TableCell align="right">Manage</TableCell>
-
-
                         </TableRow>
                     </TableHead>
-
-
                     <TableBody>
                         {allProducts?.map((data) => (
                             <TableRows
@@ -64,45 +49,30 @@ export default function ManageProducts() {
                                 data={data}
                                 products={allProducts}
                                 setProducts={setAllProducts}
-
-
+                                setNotify={setNotify}
                             />
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
-
         </>
     );
 }
-
-
-
-
-
-const TableRows = ({ data, products, setProducts }) => {
-
+const TableRows = ({ data, products, setProducts, setNotify }) => {
     // dialog function start here 
     const [open, setOpen] = useState(false);
-
-
-
     const { name, price, _id } = data;
-    const dynamicRoute = `http://localhost:5000/products/${_id}`
-
+    const dynamicRoute = `https://limitless-springs-61236.herokuapp.com/products/${_id}`
     const handleRemove = () => {
         axios.delete(dynamicRoute).then(data => {
-        
-            if ( data.data.deletedCount > 0) {
+            if (data.data.deletedCount > 0) {
+                setNotify(true)
                 const AvailableData = products.filter(data => data._id !== _id)
                 setProducts(AvailableData)
+
             }
         });
-
     }
-
     return (
         <>
             <TableRow>
@@ -110,58 +80,103 @@ const TableRows = ({ data, products, setProducts }) => {
                     {name}
                 </TableCell>
                 <TableCell align="right">{price}</TableCell>
-
-
                 <TableCell align="right"> <Button onClick={() => {
                     setOpen(true)
 
                 }} style={{ backgroundColor: "red", }}
                     variant='contained'>Delete</Button> </TableCell>
-
             </TableRow>
-
-
-
-
-
             <Dialog
-
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
-                    {"Are you sure ?"}
+                <DialogTitle sx={{ color: 'blue' }} id="alert-dialog-title">
+                    Are you sure !
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you Sure ...?
-                        You really Want to delete thid item...?
+
+                        If You delete this item will delete from UI and database too
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
                         setOpen(false)
-
-                    }}>Disagree</Button>
+                    }} sx={{ color: 'green' }}>NO</Button>
                     <Button onClick={() => {
                         handleRemove();
                         setOpen(false)
-                    }} autoFocus>
-                        Agree
+                    }} sx={{ color: 'red' }} autoFocus>
+                        YES
                     </Button>
                 </DialogActions>
             </Dialog>
-
-
-
         </>
-
-
-
-
     )
-}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

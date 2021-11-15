@@ -1,17 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Grid } from '@mui/material';
+import { Container, Typography, Box, Grid, CircularProgress } from '@mui/material';
 import Navbar from '../HomePage/Navbar/Navbar';
 import Product from '../HomePage/ProductsShow/Product';
 import axios from 'axios';
+import useAuth from '../../Hooks/useAuth';
 
 const Explore = () => {
-    const [products, setProducts] = useState([{},{},{},{}]);
+    const { loading } = useAuth();
+    
+  
+
+
+
+
+    const [products, setProducts] = useState([{}, {}, {}, {}]);
     useEffect(() => {
-        axios.get('http://localhost:5000/products').then(data => setProducts(data.data))
+        axios.get('https://limitless-springs-61236.herokuapp.com/products').then(data => setProducts(data.data))
     }, []);
 
 
+    if (loading) {
+        
+        return (
+            <Box sx={{ height: '600px', width: '100vw', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
+                <CircularProgress size={100} color="secondary" />
+            </Box>
 
+        )
+    };
 
 
     return (
